@@ -32,9 +32,9 @@ int main(){
     float leaps;                        // variable to store  number of leaps contained in difference
     
     // Initialize and Define Constants
-    const int STARTING_DAY = 1;         // variable to store the day of the week of the starting year
-    const int DAYS_IN_WEEK = 7;
-    const int STARTING_YEAR = 1900;
+    const int STARTING_DAY = 1;         // constant to store the day of the week of the starting year
+    const int DAYS_IN_WEEK = 7;         // constant to store number of days in a week
+    const int STARTING_YEAR = 1900;     // constant to store starting year
     
     // prompt user - acquire information
     cout << endl;
