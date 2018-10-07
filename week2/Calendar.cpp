@@ -29,8 +29,7 @@ int main(){
     cout << "Welcome to Alaa's New Year's Day Canculator" << endl;
     cout << "What Year?: " ;
     cin >> userYear;
-    //cout << endl;
-
+    
     // calculate
     difference = userYear - year;           // calculate the difference between userYear and 1900
     leaps = ((difference / 4.0) - (0.25));  // calculate the number of years that have 'leaped'
@@ -44,27 +43,6 @@ int main(){
     // conclude program
     cout << "Thank you for using Alaa's New Year's Day Calculator" << endl;
 
-/*
-    for (int i = 1900; i <= 2099; i++){
-    
-    
-    userYear = i;
-    startingDay = 1;
-    difference = userYear - year;
-    leaps = ((difference / 4.0) - (0.25));
-    daysInWeek = 7;
-
-    // cout << "Actual Leaps: " << leaps << "---" ;
-    // without leap years, how many days did progress?
-    dayOfWeek = (1 + difference + (static_cast<int>((leaps) ))) % 7;
-    cout << userYear << " : " << dayOfWeek << endl;
-    
-    }
-
-    cout << 2 % 7<< "********" << endl << endl;
-*/
-    //cout << dayOfWeek << endl;
-    // find out how many days to include 
     return 0;
 }
 
