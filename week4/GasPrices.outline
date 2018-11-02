@@ -1,0 +1,21 @@
+1.  Prompt the user to enter the full pathname to the data file on disk.
+        -> If the file does not exist in the specified location, your 
+        program should exit with a suitable error message.
+
+2.  Output to the screen a copy of the data read in from the disk file. 
+        -> This is known as "echoing" the input data.
+
+3.  Calculate and display the AVERAGE PRICE OF GASOLINE in:
+        -> California
+        -> Oregon
+        -> Washington
+        ** DISPLAY YOUR RESULTS TO 3 DECIMAL PLACES **
+        ** AUTOMATICALLY LIST THE STATES AND THEIR AVERAGE PRICE ONE TO A LINE **
+        ** STATES MUST BE IN ALPHABETICAL ORDER **
+        
+        ASSUME NO PLACE NAME IN THE FILE CONTAINS A SPACE CHARACTER
+
+4.  Calculate and display to 3 decimals the overall average price of gas for all stations surveyed.
+
+5.  Display the name of the state with the cheapest average price, and the name of the state with the
+    highest average gas price.
