@@ -1,3 +1,12 @@
+// This program investigates the Goldbach conjecture. 
+// In doing so it analyzes every even integer between 4 and 1000
+// inclusively, and determines which prime numbers add into the even number. 
+// The output of the program shows the even number being evaluated
+// and the prime pair whose sum is equal to the even number in question.
+// By: Alaa Alokby
+// Sources: None
+// Date: 8 November 2018
+
 #include <iostream>
 #include <string>
 #include <cmath>
