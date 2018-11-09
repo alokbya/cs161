@@ -1,0 +1,9 @@
+OBJECTIVES
+1.  List all even numbers from 4 to 1,000 along with two primes which add to the same number
+2.  Be sure to program the case where you find an even number that cannot be expressed as the sum of two primes
+3.  You can test this code by seeing if all integers between 4 and 1000 can be expressed as a sum of 2 primes
+
+LAYOUT
+1.  Make an isPrime() function to return true if argument is prime, false if not
+2.  Make a function to list out all even numbers between 4 and 1000:wq
+
