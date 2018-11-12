@@ -9,7 +9,7 @@
 
 #include <iostream>
 #include <string>
-#include <cmath>
+#include <cmath>         // sqrt()  
 #include <cstdlib>
 #include <iomanip>
 
@@ -26,7 +26,6 @@ int main(){
     for(int x = 4; x <= 1000; x = x + 2){
         findPrimes(x);
     }
-    
     return 0;
 }
 
@@ -35,9 +34,7 @@ int main(){
 // is not prime. A prime number is only divisible by one, and itself.
 bool isPrime(int number){
 
-    // Divide number argument by every number up to half of its value, and find the remainder.
-    // if the remainder is not zero for every number, the number is prime.
-    for(int i = 3; i <= number/2; i++){
+    for(int i = 2; i <= sqrt(number); i++){
         if(number%i == 0){
             return false;
         }
@@ -48,14 +45,18 @@ bool isPrime(int number){
 // This function accepts one argument and prints out a set of prime numbers that add into the
 // number argument. This function does not return a value.
 void findPrimes(int number){
-    int oldNumber = 0;
-    
+   // oldNumber is used to store the previous number value in order 
+   // to prevent additional primes being searched for once they have been found
+   // for a number
+   int oldNumber = 0; 
     // List even numbers
     for(int i = 2; i < number; i++){
-        for(int j = 2; j < number; j++){
-            if(isPrime(i) && isPrime(j) && i + j == number && number != oldNumber){
-                formatOutput(i, j, number);
-                oldNumber = number;
+        if(isPrime(i)){
+            for(int j = 2; j < number; j++){
+                if(isPrime(j) && i + j == number && number != oldNumber){
+                    formatOutput(i, j, number);
+                    oldNumber = number;
+                }
             }
         }
     }
