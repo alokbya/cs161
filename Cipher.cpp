@@ -25,7 +25,7 @@ void writeOut(string filePath, int shift);          // Create new decrypted file
 int main(){
     
     // Declare variables
-    int alphabetArray[50] = { 0 };                  // Create alphabet array with 50 elements set to 0
+    int alphabetArray[25] = { 0 };                  // Create alphabet array with 25 elements set to 0
     int shift = 0;
     /*for(int i = 0; i < 50; i++){
         cout << alphabetArray[i] << endl;
@@ -43,7 +43,48 @@ int main(){
     shift = getShift(alphabetArray);
 
     // write new decrypted file
-    writeOut("encrypted.txt", shift);
+    // writeOut("encrypted.txt", shift);
+
+    // create output file, input file and open
+    ifstream ifile;
+    ofstream ofile;
+
+    bool shifted = false;
+    int dnum;
+    char letter;
+    int anum;
+    int difference;
+
+    ifile.open("b.txt");
+    //ofile.open();
+    while(ifile.peek() != EOF){
+        ifile >> noskipws >> letter;                    // get letter into char
+        anum = static_cast<int>(letter);                // num representation of letter
+        cout << "original letter: " << anum << " - " << letter << endl;
+        
+        if(anum < 97 || anum > 122){
+            dnum = anum;                                // Case where decrypted number is same as original
+        }
+        else{
+            dnum = anum + shift;                        // Attempt to shift numbers (decrypt)
+            cout << "SHIFTED!!!" << endl;
+            shifted = true;                             // Set shifted bit to true
+        }
+        if(dnum > 122 && shifted == true){              // Shifted above acceptable range
+            difference = dnum - 122;                    // Find amount above 122 that number shifted
+            dnum = 96 + difference;                     // Reassign dnum (cycle starting at 96)
+        }
+        else if(dnum < 97 && shifted == true){                             // Shifted below acceptable range
+            difference = 97 - difference;               // Find amount below 97 that number shifted
+            dnum = 123 - difference;                    // Reassign dnum (cycle starting at 123)
+        }
+        
+        cout << "decrypted letter: " << dnum << " - " << static_cast<char>(dnum) << endl;
+        shifted = false;                                // Set shifted bit to false
+    }
+    ifile.close();
+    //ofile.close();
+
     return 0;
 }
 
@@ -63,7 +104,7 @@ void streamChar(int array[]){
     
     // Open file
     //inputFile.open(getFilePath());
-    inputFile.open("encrypted.txt");
+    inputFile.open("b.txt");
     if(!inputFile.is_open()){
         cout << "Could not open file at directed file path..." << endl;
         cout << "Exiting program." << endl;
@@ -71,15 +112,12 @@ void streamChar(int array[]){
     }
     else{
         while(inputFile.peek() != EOF){
-            inputFile >> letter;
+            inputFile >> noskipws >> letter;
             
             // Check if letter is lowercase or uppercase alphabet letter add 1 to corresponding element
             number = static_cast<int>(letter);
-            if(number >= 65 && number <= 90){                               // If letter is between A-Z
-                array[number - 65] += 1;                                    // Add one to corresponding position
-            }
-            else if(number >= 97 && number <= 122){                         // If letter is between a-z
-                array[number - 72] += 1;                                    // Add one to corresponding position
+            if(number >= 97 && number <= 122){                         // If letter is between a-z
+                array[number - 97] += 1;                               // Add one to corresponding position
             }           
         }        
         inputFile.close();
@@ -96,17 +134,18 @@ int getShift(int array[]){
     int shift = 0;
     int asciiValue = 0;
     // Loop through array -- find the index and value of 'e'
-    for(int i = 0; i < 50; i++){
+    for(int i = 0; i < 25; i++){
         if(array[i] >= freq){
             freq = array[i];
             index = i;
+            cout << "Index: " << index << ", Value: " << freq << endl;
         }
     }
     // Use index of highest frequency letter to find shift
     // ASCII - e: 101
     asciiValue = index + 97;                                    // Get index in range of lower case letters
     shift = -(101 - asciiValue);                                // Give shift implicit direction
-    
+    cout << "Total Shift: " << shift << endl; 
     return shift;                                               // Return shift
 }
 
@@ -123,7 +162,7 @@ string getFilePath(){
 
 // writeOut
 // This function reads encrypted input from fileName and creates a decrypted output file
-void writeOut(string fileName, int shift){
+/*void writeOut(string fileName, int shift){
     // Declare local variables
     char letter;                                // Holds char value from input stream
     int number;                                 // Holds integer value of letter
@@ -150,7 +189,7 @@ void writeOut(string fileName, int shift){
         else{
             // Read in data
             while(inputData.peek() != EOF){                            // While not at end-of-file...
-                inputData >> letter;                                   // Read in single character
+                inputData >> noskipws >> letter;                                   // Read in single character
                 number = static_cast<int>(letter);                     // Get int value of char
                 // Differentiate between letter casing
                 if(number >= 65 && number <= 90){                      // If letter is uppercase
@@ -191,3 +230,4 @@ void writeOut(string fileName, int shift){
     inputData.close();
     outputData.close();
 }
+*/
