@@ -56,34 +56,47 @@ int main(){
     int difference;
 
     ifile.open("b.txt");
-    //ofile.open();
+    ofile.open("d.txt");
     while(ifile.peek() != EOF){
         ifile >> noskipws >> letter;                    // get letter into char
         anum = static_cast<int>(letter);                // num representation of letter
         cout << "original letter: " << anum << " - " << letter << endl;
         
-        if(anum < 97 || anum > 122){
+        if(anum < 97 || anum > 122 && anum < 65 || anum < 90){                    
             dnum = anum;                                // Case where decrypted number is same as original
         }
-        else{
-            dnum = anum + shift;                        // Attempt to shift numbers (decrypt)
+        else if(anum >= 97 && anum <= 122){             // Handle lowercase letters
+            if(shift >= 0){                             // If the shift is greater than zero
+            dnum = anum - shift;                        // Attempt to shift numbers (decrypt) back
             cout << "SHIFTED!!!" << endl;
             shifted = true;                             // Set shifted bit to true
+
+            if(dnum < 97 && shifted == true){
+                difference = 97 - dnum;
+                dnum = 123 - difference;
+            }
+            }
+            else if(shift <= 0){                        // If the shift is less than zero
+                dnum = anum - shift;                    // Shift forward (adding)
+                cout << "SHIFTED!!!" << endl;
+                shifted = true;
+
+                if(dnum > 122 && shifted == true){
+                    difference = dnum - 122;
+                    dnum = 96 + difference;
+                }
+            }
         }
-        if(dnum > 122 && shifted == true){              // Shifted above acceptable range
-            difference = dnum - 122;                    // Find amount above 122 that number shifted
-            dnum = 96 + difference;                     // Reassign dnum (cycle starting at 96)
-        }
-        else if(dnum < 97 && shifted == true){                             // Shifted below acceptable range
-            difference = 97 - difference;               // Find amount below 97 that number shifted
-            dnum = 123 - difference;                    // Reassign dnum (cycle starting at 123)
+        else if(anum >= 65 && anum <= 90){              // Handle uppercase letters
+            
         }
         
         cout << "decrypted letter: " << dnum << " - " << static_cast<char>(dnum) << endl;
         shifted = false;                                // Set shifted bit to false
+        ofile << static_cast<char>(dnum);
     }
     ifile.close();
-    //ofile.close();
+    ofile.close();
 
     return 0;
 }
