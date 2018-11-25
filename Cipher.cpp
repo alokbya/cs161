@@ -62,7 +62,7 @@ int main(){
         anum = static_cast<int>(letter);                // num representation of letter
         cout << "original letter: " << anum << " - " << letter << endl;
         
-        if(anum < 97 || anum > 122 && anum < 65 || anum < 90){                    
+        if(anum < 65 || anum > 90 && anum < 97 || anum > 122){                    
             dnum = anum;                                // Case where decrypted number is same as original
             cout << "OUT OF BOUNDS" << endl;
         }
