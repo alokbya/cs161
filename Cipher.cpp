@@ -23,101 +23,16 @@ string getFilePath();                               // Prompt user to enter path
 void writeOut(string filePath, int shift);          // Create new decrypted file
 
 int main(){
-    
+   
     // Declare variables
     int alphabetArray[25] = { 0 };                  // Create alphabet array with 25 elements set to 0
-    int shift = 0;
-    /*for(int i = 0; i < 50; i++){
-        cout << alphabetArray[i] << endl;
-    }
-    streamChar(alphabetArray);
-    cout << endl << endl;
-    for(int j = 0; j < 50; j++){
-        cout << alphabetArray[j] << endl;
-    }*/
-    // Stream from input file
-    streamChar(alphabetArray);
-    // Now the array is filled with data
-
-    // get shift
-    shift = getShift(alphabetArray);
-
-    // write new decrypted file
-    // writeOut("encrypted.txt", shift);
-
-    // create output file, input file and open
-    ifstream ifile;
-    ofstream ofile;
-
-    bool shifted = false;
-    int dnum;
-    char letter;
-    int anum;
-    int difference;
-
-    ifile.open("encrypted.txt");
-    ofile.open("d.txt");
-    while(ifile.peek() != EOF){
-        ifile >> noskipws >> letter;                    // get letter into char
-        anum = static_cast<int>(letter);                // num representation of letter
-        cout << "original letter: " << anum << " - " << letter << endl;
-        
-        if(anum < 65 || anum > 90 && anum < 97 || anum > 122){                    
-            dnum = anum;                                // Case where decrypted number is same as original
-            cout << "OUT OF BOUNDS" << endl;
-        }
-        else if(anum >= 97 && anum <= 122){             // Handle lowercase letters
-            if(shift >= 0){                             // If the shift is greater than zero
-                dnum = anum - shift;                        // Attempt to shift numbers (decrypt) back
-                cout << "SHIFTED!!!" << endl;
-                shifted = true;                             // Set shifted bit to true
-
-                if(dnum < 97 && shifted == true){
-                    difference = 97 - dnum;
-                    dnum = 123 - difference;
-                }
-            }
-            else if(shift <= 0){                        // If the shift is less than zero
-                dnum = anum - shift;                    // Shift forward (adding)
-                cout << "SHIFTED!!!" << endl;
-                shifted = true;
-
-                if(dnum > 122 && shifted == true){
-                    difference = dnum - 122;
-                    dnum = 96 + difference;
-                }
-            }
-        }
-        else if(anum >= 65 && anum <= 90){              // Handle uppercase letters
-           if(shift >= 0){
-                dnum = anum - shift;
-                cout << "SHIFTED!!!" << endl;
-                shifted = true;
-
-                if(dnum < 65 && shifted == true){         
-                    difference = 65 - dnum;
-                    dnum = 91 - difference;
-                }
-           }
-           else if(shift <= 0){
-                dnum = anum - shift;
-                cout << "SHIFTED!!!" << endl;
-                shifted = true;
-
-                if(dnum > 90 && shifted == true){
-                    difference = dnum - 90;
-                    dnum = 64 + difference;
-                }
-           }
-        }
-        
-        cout << "decrypted letter: " << dnum << " - " << static_cast<char>(dnum) << endl;
-        shifted = false;                                // Set shifted bit to false
-        ofile << static_cast<char>(dnum);
-    }
-    ifile.close();
-    ofile.close();
-
+    int shift = 0;                                  // Declare and initialize variable to hold encryption shift
+   
+    // Begin deciphering
+    streamChar(alphabetArray);                      // Stream from input file
+    shift = getShift(alphabetArray);                // Get the encryption shift, store in 'shift'
+    writeOut("encrypted.txt", shift);               // Decipher, place deciphered text in file: 'd.txt'
+    
     return 0;
 }
 
@@ -195,72 +110,78 @@ string getFilePath(){
 
 // writeOut
 // This function reads encrypted input from fileName and creates a decrypted output file
-/*void writeOut(string fileName, int shift){
-    // Declare local variables
-    char letter;                                // Holds char value from input stream
-    int number;                                 // Holds integer value of letter
-    int decNumber = 0;                              // Decrypted number, after applying shift
-    int difference = 0;                             // Used for number out of ASCII letter bounds
-    // Declare input and output files
-    ifstream inputData;
-    ofstream outputData;
-    // Open input data file
-    inputData.open(fileName);
-    if(!inputData.is_open()){
-        cout << "Cannot open input file: " << fileName << "." << endl;
-        cout << "Exiting program... " << endl;
-        exit(0);
-    }
-    else{
-        // Open output file
-        outputData.open("decrypted.txt");                                   // Open output file
-        if(!outputData.is_open()){
-            cout << "Cannot open output file:'decrypted.tx'" << endl;
-            cout << "Exiting program..." << endl;
-            exit(0);
+void writeOut(string fileName, int shift){
+    
+    ifstream ifile;
+    ofstream ofile;
+
+    bool shifted = false;
+    int dnum;
+    char letter;
+    int anum;
+    int difference;
+
+    ifile.open(fileName);
+    ofile.open("d.txt");
+    while(ifile.peek() != EOF){
+        ifile >> noskipws >> letter;                    // get letter into char
+        anum = static_cast<int>(letter);                // num representation of letter
+        cout << "original letter: " << anum << " - " << letter << endl;
+        
+        if(anum < 65 || anum > 90 && anum < 97 || anum > 122){                    
+            dnum = anum;                                // Case where decrypted number is same as original
+            cout << "OUT OF BOUNDS" << endl;
         }
-        else{
-            // Read in data
-            while(inputData.peek() != EOF){                            // While not at end-of-file...
-                inputData >> noskipws >> letter;                                   // Read in single character
-                number = static_cast<int>(letter);                     // Get int value of char
-                // Differentiate between letter casing
-                if(number >= 65 && number <= 90){                      // If letter is uppercase
-                    decNumber = number + shift;                        // Set decNum to shifted number
-                    if(decNumber < 65){                                // If decNum below range
-                        difference = 65 - decNumber;                   // Find number of steps below 65
-                        decNumber = 91 - difference;                   // Set the correct decrypted number
-                    }
-                    else if(decNumber > 90){                           // If decNum above range
-                        difference = 90 - decNumber;                   // Find how much above
-                        decNumber = 64 + difference;                   // Normalize by adding to 64
-                    }
+        else if(anum >= 97 && anum <= 122){             // Handle lowercase letters
+            if(shift >= 0){                             // If the shift is greater than zero
+                dnum = anum - shift;                        // Attempt to shift numbers (decrypt) back
+                cout << "SHIFTED!!!" << endl;
+                shifted = true;                             // Set shifted bit to true
+
+                if(dnum < 97 && shifted == true){
+                    difference = 97 - dnum;
+                    dnum = 123 - difference;
                 }
-                else if(number >= 97 && number <= 122){                // If number is lowercase
-                    decNumber = number + shift;                        // Set decNum to decrypted num
-                    if(decNumber < 97){
-                        difference = 97 - decNumber;
-                        decNumber = 123 - difference;
-                    }
-                    else if(decNumber > 122){
-                        difference = 122 - decNumber;
-                        decNumber = 96 + difference;
-                    }
+            }
+            else if(shift <= 0){                        // If the shift is less than zero
+                dnum = anum - shift;                    // Shift forward (adding)
+                cout << "SHIFTED!!!" << endl;
+                shifted = true;
+
+                if(dnum > 122 && shifted == true){
+                    difference = dnum - 122;
+                    dnum = 96 + difference;
                 }
-                // Write decrypted letter to output file
-                if(decNumber != 0){
-                    outputData << static_cast<char>(decNumber);
-                }
-                else{
-                    outputData << static_cast<char>(number);
-                }
-                decNumber = 0;
             }
         }
-    }
+        else if(anum >= 65 && anum <= 90){              // Handle uppercase letters
+           if(shift >= 0){
+                dnum = anum - shift;
+                cout << "SHIFTED!!!" << endl;
+                shifted = true;
 
-    // Close input and output data files
-    inputData.close();
-    outputData.close();
+                if(dnum < 65 && shifted == true){         
+                    difference = 65 - dnum;
+                    dnum = 91 - difference;
+                }
+           }
+           else if(shift <= 0){
+                dnum = anum - shift;
+                cout << "SHIFTED!!!" << endl;
+                shifted = true;
+
+                if(dnum > 90 && shifted == true){
+                    difference = dnum - 90;
+                    dnum = 64 + difference;
+                }
+           }
+        }
+        
+        cout << "decrypted letter: " << dnum << " - " << static_cast<char>(dnum) << endl;
+        shifted = false;                                // Set shifted bit to false
+        ofile << static_cast<char>(dnum);
+    }
+    ifile.close();
+    ofile.close();
 }
-*/
+

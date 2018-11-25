@@ -3,3 +3,10 @@
 2.  Establish a shift that is required to decypher the text
 3.  Implement the decyphering, write to a new file with the shift to unveil true message
 
+
+TODO:
+    - Clean up code
+    - Add descriptive comments
+    - Revise top block comment, discuss array
+        - Made changes so array only holds lowercase, now
+    
