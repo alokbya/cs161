@@ -55,7 +55,7 @@ int main(){
     int anum;
     int difference;
 
-    ifile.open("b.txt");
+    ifile.open("encrypted.txt");
     ofile.open("d.txt");
     while(ifile.peek() != EOF){
         ifile >> noskipws >> letter;                    // get letter into char
@@ -64,17 +64,18 @@ int main(){
         
         if(anum < 97 || anum > 122 && anum < 65 || anum < 90){                    
             dnum = anum;                                // Case where decrypted number is same as original
+            cout << "OUT OF BOUNDS" << endl;
         }
         else if(anum >= 97 && anum <= 122){             // Handle lowercase letters
             if(shift >= 0){                             // If the shift is greater than zero
-            dnum = anum - shift;                        // Attempt to shift numbers (decrypt) back
-            cout << "SHIFTED!!!" << endl;
-            shifted = true;                             // Set shifted bit to true
+                dnum = anum - shift;                        // Attempt to shift numbers (decrypt) back
+                cout << "SHIFTED!!!" << endl;
+                shifted = true;                             // Set shifted bit to true
 
-            if(dnum < 97 && shifted == true){
-                difference = 97 - dnum;
-                dnum = 123 - difference;
-            }
+                if(dnum < 97 && shifted == true){
+                    difference = 97 - dnum;
+                    dnum = 123 - difference;
+                }
             }
             else if(shift <= 0){                        // If the shift is less than zero
                 dnum = anum - shift;                    // Shift forward (adding)
@@ -88,7 +89,26 @@ int main(){
             }
         }
         else if(anum >= 65 && anum <= 90){              // Handle uppercase letters
-            
+           if(shift >= 0){
+                dnum = anum - shift;
+                cout << "SHIFTED!!!" << endl;
+                shifted = true;
+
+                if(dnum < 65 && shifted == true){         
+                    difference = 65 - dnum;
+                    dnum = 91 - difference;
+                }
+           }
+           else if(shift <= 0){
+                dnum = anum - shift;
+                cout << "SHIFTED!!!" << endl;
+                shifted = true;
+
+                if(dnum > 90 && shifted == true){
+                    difference = dnum - 90;
+                    dnum = 64 + difference;
+                }
+           }
         }
         
         cout << "decrypted letter: " << dnum << " - " << static_cast<char>(dnum) << endl;
@@ -117,7 +137,7 @@ void streamChar(int array[]){
     
     // Open file
     //inputFile.open(getFilePath());
-    inputFile.open("b.txt");
+    inputFile.open("encrypted.txt");
     if(!inputFile.is_open()){
         cout << "Could not open file at directed file path..." << endl;
         cout << "Exiting program." << endl;
