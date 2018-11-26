@@ -1,9 +1,8 @@
 // Cipher.cpp
 
-// This program largely revolves around an array, alphabetArray[], which has 50 elements initialized
-// to zero at the beginning of the program. Each element corresponds to an ASCII value of a character
-// in the alphabet. Elements 0-24 are reserved for UPPERCASE letters A-Z. Elements 25-49 are
-// reserved for lowercase letters a-z. The function streamChar() streams data in from a file and 
+// This program largely revolves around an array, alphabetArray[], which has 25 elements initialized
+// to zero at the beginning of the program. Each element corresponds to an ASCII value of a lower case 
+// character in the alphabet. The function streamChar() streams data in from a file and 
 // adds 1 to the corresponding element in the array, based on the characters streamed from the file.
 // The function getShift() then finds the element with the highest value. With the understanding that
 // the element with the highest value will correspond to the letter 'e', the function will be able to make
@@ -62,7 +61,7 @@ void streamChar(int array[], string encrypted){
     
     inputFile.open(encrypted);                      // Open file using passed in file path
     if(!inputFile.is_open()){                       // If input file is not open, exit program
-        cout << "Could not open file at directed file path..." << endl;
+        cout << "Could not open input file at directed file path..." << endl;
         cout << "Exiting program." << endl;
         exit(0);                                    // Exit and return value of 0
     }
@@ -139,7 +138,7 @@ void writeOut(string input, int shift, string output){
     else{
         cout << "Successfully opened input file: " << input << endl;
     }
-    if(!ofile.is_open()){
+    if(!ofile.is_open()){                           // Handle unsuccessful attempt to open output file
         cout << "Could not successfully open the output file: " << output << endl;
         cout << "Exiting program with value 0... " << endl;
         exit(0);
