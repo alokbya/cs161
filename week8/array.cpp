@@ -90,8 +90,8 @@ void deleteItem(int list[], int &size, int num)
             {
                 list[j] = list[j+1];              // Shift the upstream elements--down
             }
-            i-=1;                                 // Reduce I by one to check if same num shifted into prev. i
-            size -= 1;
+            i -= 1;                               // Reduce i by one to check if same num shifted into prev. i
+            size -= 1;                            // Adjust magnitude of size to accommodate shift
         }
     }
     if(found == false)
